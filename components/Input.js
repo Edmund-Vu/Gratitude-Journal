@@ -8,10 +8,10 @@ export default function Input({handleSubmit}){
         setValue("")
     }
     return(
-        <form onSubmit={(e) => alert('Clicked!')}>
-            <input type = "text" value = {value} 
+        <form onSubmit={submitForm}>
+            <input placeholder = "Enter gratitude here." type = "text" value = {value} 
                 onChange = {e => setValue(e.target.value)} 
-                className = "rounded px-3 py-2">
+                className = "rounded px-3 py-2 mr-6 mt-8">
             </input>
             <button type = "submit" className = "bg-pink-300 rounded px-12 py-2">Save</button>
         </form>
