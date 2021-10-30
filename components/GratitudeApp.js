@@ -15,7 +15,7 @@ export default function GratitudeApp({ user }){
         // after the initial render of the app
         // so we have access to the logged in user
         fetchGratitudes()
-    }, [])
+    }, [loading])
 
     const fetchGratitudes = async () => {
         // get the gratitudes data from supabase
@@ -28,12 +28,10 @@ export default function GratitudeApp({ user }){
             /* TODO: See if time since last submission > 24 hours
              * if not, set submittedToday to true
             */
-            let currentTime = new Date().getTime()
-            let mostRecentRecordTime = new Date(gratitudes.slice(-1)[0].date_insert_ts).getTime()
-            let hoursSinceLastSubmission = (mostRecentRecordTime - currentTime) / 3600000
+            let today = new Date()
+            let hoursSinceLastSubmission = Math.abs(new Date(gratitudes.slice(-1)[0]['date_insert_ts']).getTime() - today.getTime()) / 3600000
             let didSubmitToday = hoursSinceLastSubmission < 24
             setSubmittedToday(didSubmitToday)
-
             setGratitudes(gratitudes)
             setLoading(false)
         } else {
@@ -56,9 +54,9 @@ export default function GratitudeApp({ user }){
             console.log(error)
             setError(error)
         } else {
-            setGratitudes([...gratitudes, {'entry': entry, 'date_insert_ts': null}])
-            setLoading(false)
+            setGratitudes([...gratitudes, {'entry': entry, 'date_insert_ts': NULL}])
             setSubmittedToday(true)
+            setLoading(false)
         }
     }
 
